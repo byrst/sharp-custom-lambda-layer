@@ -87,8 +87,8 @@ installLib:
 		libexif-devel \
 		librsvg2-devel \
 		libtiff-devel \
-                openjpeg2-devel \
-                libjxl-devel \
+		openjpeg2-devel \
+		#libjxl-devel \
 		lcms2-devel \
 		gobject-introspection-devel \
 		cmake \
