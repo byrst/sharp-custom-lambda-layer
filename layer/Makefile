@@ -1,3 +1,5 @@
+ARTIFACTS_DIR=/home/ec2-user/layer
+
 # Library Versions
 WEBP_VERSION=1.5.0
 LIBDE265_VERSION=1.0.15
