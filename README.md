@@ -3,6 +3,9 @@ AWS Lambda Layer providing [sharp](https://github.com/lovell/sharp) with HEIC (a
 
 ![Build Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiUnY2cHpCUEwybDl5b2lIUys2b1lhN1BxMFVvb1pxMU8rUUpNNG1hSEFFN2VCUmxkK2t6azZrMEVOY1Y2RW40TGZ3NlF1bUo1dUE0ZVhiRm5GN3Q2YlJBPSIsIml2UGFyYW1ldGVyU3BlYyI6IjVxNm9zL3pWa0dQa21lNXAiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main)
 
+## Byrst Notes
+In addition to HEIC support, this fork also provides support for JPEG2000 and JPEG-XL. It differs from the source repository in that it builds for the ARM64 architecture rather than X86-64 as the Byrst Lambdas that leverage this layer run on the ARM64 platform.
+
 ## Prerequisites
 
 * Docker
