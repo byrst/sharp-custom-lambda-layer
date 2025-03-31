@@ -1,5 +1,3 @@
-ARTIFACTS_DIR=/home/ec2-user/layer
-
 # Library Versions -  NOTE: there is currently an issue compiling v4.1 (latest) on ARM64
 WEBP_VERSION=1.5.0
 LIBDE265_VERSION=1.0.15
@@ -90,7 +88,7 @@ installLib:
 		librsvg2-devel \
 		libtiff-devel \
 		openjpeg2-devel \
-		libjxl-devel \
+		openexr-devel \
 		lcms2-devel \
 		gobject-introspection-devel \
 		cmake \
