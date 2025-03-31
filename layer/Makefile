@@ -4,7 +4,8 @@ ARTIFACTS_DIR=/home/ec2-user/layer
 WEBP_VERSION=1.5.0
 LIBDE265_VERSION=1.0.15
 LIBAOM_VERSION=3.9.1
-X265_VERSION=4.0 #NOTE: there is currently an issue compiling v4.1 (latest) on ARM64
+# NOTE: there is currently an issue compiling v4.1 (latest) on ARM64
+X265_VERSION=4.0
 LIBHEIF_VERSION=1.19.7
 VIPS_VERSION=8.16.1
 SHARP_VERSION=0.33.5
