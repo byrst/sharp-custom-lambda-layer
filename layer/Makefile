@@ -1,10 +1,10 @@
 # Library Versions
-WEBP_VERSION=1.4.0
+WEBP_VERSION=1.5.0
 LIBDE265_VERSION=1.0.15
 LIBAOM_VERSION=3.9.1
-X265_VERSION=3.6
-LIBHEIF_VERSION=1.18.2
-VIPS_VERSION=8.15.3
+X265_VERSION=4.0 #NOTE: there is currently an issue compiling v4.1 (latest) on ARM64
+LIBHEIF_VERSION=1.19.7
+VIPS_VERSION=8.16.1
 SHARP_VERSION=0.33.5
 
 PREFIX_PATH=/usr/local
@@ -24,13 +24,13 @@ build-SharpHEICLayer: libvips
 
 	# install
 	npm install --save --prefix "$(ARTIFACTS_DIR)/nodejs/" node-addon-api node-gyp
-	npm install --build-from-source --prefix "$(ARTIFACTS_DIR)/nodejs/" --verbose --foreground-scripts --platform=linux --arch=x64 sharp@$(SHARP_VERSION)
+	npm install --build-from-source --prefix "$(ARTIFACTS_DIR)/nodejs/" --verbose --foreground-scripts --platform=linux --arch=arm64 sharp@$(SHARP_VERSION)
 
 	# debug logs
 	# ls -la $(ARTIFACTS_DIR)/nodejs/node_modules/sharp/src/build/*/
 
 	# copy the shared objects
-	ldd $(ARTIFACTS_DIR)/nodejs/node_modules/sharp/src/build/Release/sharp-linux-x64.node | awk '{ print $$3 }' | grep '/' | xargs -I '{}' cp '{}' $(ARTIFACTS_DIR)/lib
+	ldd $(ARTIFACTS_DIR)/nodejs/node_modules/sharp/src/build/Release/sharp-linux-arm64.node | awk '{ print $$3 }' | grep '/' | xargs -I '{}' cp '{}' $(ARTIFACTS_DIR)/lib
 
 	# debug logs
 	# ls -la $(ARTIFACTS_DIR)/lib/
@@ -87,6 +87,8 @@ installLib:
 		libexif-devel \
 		librsvg2-devel \
 		libtiff-devel \
+                openjpeg2-devel \
+                libjxl-devel \
 		lcms2-devel \
 		gobject-introspection-devel \
 		cmake \
