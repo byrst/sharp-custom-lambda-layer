@@ -54,20 +54,6 @@ fi
 
 ARTIFACTS_DIR=$HOME/lambda_layer
 mkdir -p $ARTIFACTS_DIR
-
-cd $HOME
-if [ -d "$HOME/sharp-custom-lambda-layer" ]; then
-        # git pull
-        echo 'Pulling latest changes from repository'
-        cd $HOME/sharp-custom-lambda-layer
-        /usr/bin/git pull
-        cd $HOME
-else
-        # git clone
-        echo 'Cloning repository'
-        /usr/bin/git clone https://github.com/byrst/sharp-custom-lambda-layer.git
-fi
-
 sudo rm -rf $HOME/build
 mkdir -p $HOME/build
 cd $HOME/build
