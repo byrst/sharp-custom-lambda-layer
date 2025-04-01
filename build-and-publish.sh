@@ -58,6 +58,9 @@ sudo rm -rf $HOME/build
 mkdir -p $HOME/build
 cd $HOME/build
 sudo /usr/bin/make -f $HOME/sharp-custom-lambda-layer/layer/Makefile ARTIFACTS_DIR=$ARTIFACTS_DIR
+if [ $? -ne 0 ]; then
+        die 'ERROR: Unable to build sharp'
+fi
 
 # create the Lambda Layer ZIP
 echo 'Packaging Lambda Layer ZIP file'
