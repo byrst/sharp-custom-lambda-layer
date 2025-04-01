@@ -41,7 +41,7 @@ else
         # verify this version of node is installed
         npm -v
         ret_code=$?
-        if [ $ret_code -ne 0]; then
+        if [ $ret_code -ne 0 ]; then
                 die 'ERROR: "npm" is not installed!'
         fi
         node_ver=$(node -v)
