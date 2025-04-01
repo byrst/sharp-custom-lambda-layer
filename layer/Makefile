@@ -85,6 +85,8 @@ installLib:
 		libpng-devel \
 		giflib-devel \
 		libexif-devel \
+		libarchive-devel \
+		libimagequant-devel \
 		libjxl-devel \
 		librsvg2-devel \
 		libtiff-devel \
