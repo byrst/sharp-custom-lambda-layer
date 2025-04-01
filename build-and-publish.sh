@@ -39,19 +39,18 @@ if [ -z "$NODE_VERSION" ]; then
         die 'ERROR: "--node" argument is required'
 else
         # verify this version of node is installed
-        npm -v
+        npm_ver=$(npm -v)
         ret_code=$?
         if [ $ret_code -ne 0 ]; then
-                die 'ERROR: "npm" is not installed!'
+                die 'ERROR: npm cannot be found!'
         fi
         node_ver=$(node -v)
         ret_code=$?
-        if [ $ret_code -ne 0 ] || [ $node_ver != "v$NODE_VERSION"* ]; then
-                die "ERROR: node v$NODE_VERSION is not installed!" 
+        if [ $ret_code -ne 0 ] || [[ $node_ver != "v$NODE_VERSION"* ]; then
+                die "ERROR: node v$NODE_VERSION cannot be found!" 
         fi
         printf 'Building Sharp Lambda Layer for use with NodeJS v%s\n' "$NODE_VERSION"
 fi
-exit
 
 ARTIFACTS_DIR=$HOME/lambda_layer
 mkdir -p $ARTIFACTS_DIR
