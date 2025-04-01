@@ -38,10 +38,18 @@ done
 if [ -z "$NODE_VERSION" ]; then
         die 'ERROR: "--node" argument is required'
 else
+        # verify this version of node is installed
+        npm -v
+        ret_code=$?
+        if [ $ret_code -ne 0]; then
+                die 'ERROR: "npm" is not installed!'
+        fi
+        node_ver=$(node -v)
+        ret_code=$?
+        if [ $ret_code -ne 0 ] || [ ]; then
+                die "ERROR: node v$NODE_VERSION is not installed!" 
+        fi
         printf 'Building Sharp Lambda Layer for use with NodeJS v%s\n' "$NODE_VERSION"
-        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
-        \. "$HOME/.nvm/nvm.sh"
-        nvm install 22
 fi
 exit
 
@@ -64,7 +72,7 @@ fi
 sudo rm -rf $HOME/build
 mkdir -p $HOME/build
 cd $HOME/build
-sudo /usr/bin/make -f $HOME/sharp-custom-lambda-layer/layer/Makefile build-SharpHEICLayer ARTIFACTS_DIR=$ARTIFACTS_DIR
+sudo /usr/bin/make -f $HOME/sharp-custom-lambda-layer/layer/Makefile ARTIFACTS_DIR=$ARTIFACTS_DIR
 
 # create the Lambda Layer ZIP
 echo 'Packaging Lambda Layer ZIP file'
@@ -73,4 +81,4 @@ cd $ARTIFACTS_DIR
 
 # Publish the Lambda Layer
 echo 'Publishing Lambda Layer to AWS'
-#/usr/bin/aws lambda publish-layer-version --layer-name sharp-custom --description "Sharp Custom Image Layer" --zip-file fileb://sharp-custom-lambda-layer.zip --compatible-runtimes nodejs20.x nodejs22.x --compatible-architectures "arm64"
+/usr/bin/aws lambda publish-layer-version --layer-name sharp-custom --description "Sharp Custom Image Layer" --zip-file fileb://sharp-custom-lambda-layer.zip --compatible-runtimes nodejs$NODE_VERSION.x --compatible-architectures "arm64"
