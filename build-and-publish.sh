@@ -19,7 +19,7 @@ fi
 sudo rm -rf $HOME_DIR/build
 mkdir $HOME_DIR/build
 cd $HOME_DIR/build
-/usr/bin/make -f $HOME_DIR/sharp-custom-lambda-layer/layer/Makefile
+sudo /usr/bin/make -f $HOME_DIR/sharp-custom-lambda-layer/layer/Makefile
 
 # create the Lambda Layer ZIP
 echo 'Packaging Lambda Layer ZIP file'
