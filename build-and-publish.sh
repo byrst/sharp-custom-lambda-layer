@@ -1,25 +1,70 @@
 #!/bin/bash
 
-HOME_DIR=/home/ec2-user
-ARTIFACTS_DIR=$HOME_DIR/lambda_layer
+NODE_VERSION=
+die() {
+        printf '%s\n' "$1" >&2
+        exit 1
+}
+while :; do
+        case $1 in
+                -n|--node)
+                        if [ "$2" ]; then
+                                NODE_VERSION=$2
+                                shift
+                        else
+                                die 'ERROR: "--node" requires a version argument'
+                        fi
+                        ;;
+                --node=?*)
+                        NODE_VERSION=${1#*=} # Delete everything up to "=" and assign the remainder.
+                        ;;
+                --node=) # Handle the case of an empty --file=
+                        die 'ERROR: "--node" requires a version argument'
+                        ;;
+                --) # End of all options.
+                        shift
+                        break
+                        ;;
+                -?*) 
+                        printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+                        ;;
+                *) # Default case: No more options, so break out of the loop.
+                        break
+        esac
 
-cd $HOME_DIR
-if [ -d "$HOME_DIR/sharp-custom-lambda-layer" ]; then
-	# git pull
-	echo 'Pulling latest changes from repository'
-	cd $HOME_DIR/sharp-custom-lambda-layer
-	/usr/bin/git pull
-	cd $HOME_DIR
+        shift
+done
+
+if [ -z "$NODE_VERSION" ]; then
+        die 'ERROR: "--node" argument is required'
 else
-	# git clone
-	echo 'Cloning repository'
-	/usr/bin/git clone https://github.com/byrst/sharp-custom-lambda-layer.git
+        printf 'Building Sharp Lambda Layer for use with NodeJS v%s\n' "$NODE_VERSION"
+        curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+        \. "$HOME/.nvm/nvm.sh"
+        nvm install 22
+fi
+exit
+
+ARTIFACTS_DIR=$HOME/lambda_layer
+mkdir -p $ARTIFACTS_DIR
+
+cd $HOME
+if [ -d "$HOME/sharp-custom-lambda-layer" ]; then
+        # git pull
+        echo 'Pulling latest changes from repository'
+        cd $HOME/sharp-custom-lambda-layer
+        /usr/bin/git pull
+        cd $HOME
+else
+        # git clone
+        echo 'Cloning repository'
+        /usr/bin/git clone https://github.com/byrst/sharp-custom-lambda-layer.git
 fi
 
-sudo rm -rf $HOME_DIR/build
-mkdir $HOME_DIR/build
-cd $HOME_DIR/build
-sudo /usr/bin/make -f $HOME_DIR/sharp-custom-lambda-layer/layer/Makefile
+sudo rm -rf $HOME/build
+mkdir -p $HOME/build
+cd $HOME/build
+sudo /usr/bin/make -f $HOME/sharp-custom-lambda-layer/layer/Makefile build-SharpHEICLayer ARTIFACTS_DIR=$ARTIFACTS_DIR
 
 # create the Lambda Layer ZIP
 echo 'Packaging Lambda Layer ZIP file'
