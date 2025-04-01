@@ -46,7 +46,7 @@ else
         fi
         node_ver=$(node -v)
         ret_code=$?
-        if [ $ret_code -ne 0 ] || [[ $node_ver != "v$NODE_VERSION"* ]; then
+        if [ $ret_code -ne 0 ] || [[ $node_ver != "v$NODE_VERSION"* ]]; then
                 die "ERROR: node v$NODE_VERSION cannot be found!" 
         fi
         printf 'Building Sharp Lambda Layer for use with NodeJS v%s\n' "$NODE_VERSION"
